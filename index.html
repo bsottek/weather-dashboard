@@ -19,15 +19,51 @@
     <title>Weather Dashboard</title>
 </head>
 <body>
-<div class="row">
-    <header class="col-12 bg-dark text-light">
-        <h2 class="text-center p-3">
-            <span class="oi oi-rain"></span>
-            Weather Dashboard
-        </h2>
-    </header>
+<div class="container-fluid m-2">
+    <div class="row">
+        <header class="col-12 bg-dark text-light">
+            <h2 class="text-center p-3">
+                <span class="oi oi-rain"></span>
+                Weather Dashboard
+            </h2>
+        </header>
+    </div>
+    <div class="row mt-2">
+        <div class="col-3" id="navigation">
+            <div id="user-input-container">
+                <label for="city-input" class="form-label">Search for a City:</label>
+                <input class="form-control" type="text" name="city-input" id="city-input" placeholder="City">
+                <button type="button" class="btn btn-primary" id="search">Search</button>
+            </div>
+            <hr>
+            <div id="history-container">
+                
+            </div>
+        </div>
+        <div class="col-8 mr-2" id="display">
+            <div id="current-weather-container" class="container-fluid m-3 border border-dark">
+                <h3 class="p-2" id="current-city-title">Nashville (6/10/2021)</h3> <span id="current-city-icon"></span>
+                <p id="current-temp">Temp: 74.03 F</p>
+                <p id="current-wind">Wind: 3.2 MPH</p>
+                <p id="current-humidity">Humidity: 99%</p>
+                <p id="current-uv">filler for icon</p>
+            </div>
+            <div id="forecast-container" class="container-fluid m-3">
+                <h4>5-Day Forecast</h4>
+                <div class="row" id="forecast-card-container">
+                    <!-- These cards to be added dynamically via JS -->
+                    <!-- <div class="col-2 card text-white bg-dark" >
+                        <div class="card-header">Date Filler</div>
+                        <div class="card-icon">*</div>
+                        <p class="card-temp">Temp: 74.03 F</p>
+                        <p class="card-wind">Wind: 3.2 MPH</p>
+                        <p class="card-humidity">Humidity: 99%</p>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
 
 
 
