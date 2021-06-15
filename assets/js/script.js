@@ -68,6 +68,38 @@ var displayCurrentWeather = function (weather, searchTerm) {
 
 var displayForecastWeather = function(weather, searchTerm){
     console.log(weather);
+
+    for(var i = 4; i < 37; i += 8){
+        var day = weather.list[i];
+
+        var cardEl = document.createElement("div");
+        cardEl.classList.add("col-2", "card", "text-white", "bg-dark", "mr-2", "cardEl");
+
+        var cardHeaderEl = document.createElement("div");
+        cardHeaderEl.classList.add("card-header");
+        cardHeaderEl.textContent = (day.dt_txt.substr(0,10));
+        cardEl.appendChild(cardHeaderEl);
+
+        // var cardIconEl = document.createElement("span");
+        // cardIconEl.style.backgroundImage = (`'http://openweathermap.org/img/wn/` + day.weather[0].icon + `@2x.png`);
+        // cardHeaderEl.appendChild(cardIconEl);
+
+        var cardTempEl = document.createElement("p");
+        cardTempEl.textContent = ("Temp: " + day.main.temp + " F");
+        cardEl.appendChild(cardTempEl);
+
+        var cardWindEl = document.createElement("p");
+        cardWindEl.textContent = ("Wind: " + day.wind.speed + " MPH");
+        cardEl.appendChild(cardWindEl);
+
+        var cardHumidityEl = document.createElement("p");
+        cardHumidityEl.textContent = ("Humidity: " + day.main.humidity + "%");
+        cardEl.appendChild(cardHumidityEl);
+
+        document.getElementById("forecast-card-container").appendChild(cardEl);
+
+
+    }
     // // loop over days to create forecast cards
     // for (var i = 0; i < weather.length; i++) {
     //     // format city name
