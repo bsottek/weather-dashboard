@@ -60,10 +60,14 @@ var displayCurrentWeather = function (weather, searchTerm) {
 
     // get and add current values
     $("#current-city-title").text(weather.name);
-    $("#temp-value").text(weather.main.temp);
-    $("#wind-value").text(weather.wind.speed);
-    $("#humidity-value").text(weather.main.humidity);
+    $("#temp-value").text(weather.main.temp + " F");
+    $("#wind-value").text(weather.wind.speed + " MPH");
+    $("#humidity-value").text(weather.main.humidity + "%");
 
+};
+
+var displayForecastWeather = function(weather, searchTerm){
+    console.log(weather);
     // // loop over days to create forecast cards
     // for (var i = 0; i < weather.length; i++) {
     //     // format city name
@@ -98,6 +102,10 @@ var displayCurrentWeather = function (weather, searchTerm) {
     //     // append container to DOM
     //     repoContainerEl.appendChild(forecastCardEl);
     // }
+}
+
+var weatherHistory = function(){
+
 }
 
 userInputForm.on("submit",formSubmitHandler);
