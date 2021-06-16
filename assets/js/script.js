@@ -24,6 +24,7 @@ var getWeather = function (city) {
         if (response.ok) {
             response.json().then(function (data) {
                 displayForecastWeather(data, city);
+                weatherHistory(city);
             });
         } else {
             alert("Error: City not found.");
@@ -73,7 +74,7 @@ var displayForecastWeather = function(weather, searchTerm){
         var day = weather.list[i];
 
         var cardEl = document.createElement("div");
-        cardEl.classList.add("col-2", "card", "text-white", "bg-dark", "mr-2", "cardEl");
+        cardEl.classList.add("col-2", "card", "text-white", "bg-dark", "mr-2", "mt-2", "cardEl");
 
         var cardHeaderEl = document.createElement("div");
         cardHeaderEl.classList.add("card-header");
@@ -100,44 +101,14 @@ var displayForecastWeather = function(weather, searchTerm){
 
 
     }
-    // // loop over days to create forecast cards
-    // for (var i = 0; i < weather.length; i++) {
-    //     // format city name
-    //     var cityName = weather[i].city.name;
 
-    //     // create container for each day
-    //     var forecastCardEl = document.createElement("div");
-    //     forecastCardEl.classList = "col-2 card text-white bg-dark";
-
-    //     // create span to hold repo name
-    //     var titleEl = document.createElement("span");
-    //     titleEl.textContent = cityName;
-
-    //     // append to container
-    //     forecastCardEl.appendChild(titleEl);
-
-    //     // create status element
-    //     var statusEl = document.createElement("span");
-    //     statusEl.classList = "flex-row align-center";
-
-    //     // check if repo has issues
-    //     if (repos[i].open_issues_count > 0) {
-    //         statusEl.innerHTML =
-    //             "<i class='fas fa-times status-icon icon-danger'></i>" + repos[i].open_issues_count + " issue(s)";
-    //     } else {
-    //         statusEl.innerHTML = "<i class='fas fa-check-square status-icon icon-success'></i>";
-    //     }
-
-    //     // append to container
-    //     forecastCardEl.appendChild(statusEl);
-
-    //     // append container to DOM
-    //     repoContainerEl.appendChild(forecastCardEl);
-    // }
 }
 
-var weatherHistory = function(){
-
+var weatherHistory = function(city){
+    var cityEl = document.createElement("button");
+    cityEl.classList.add("btn", "btn-secondary", "btn-block", "mt-2", "mb-2", "history-button");
+    cityEl.textContent = city.toUpperCase().trim();
+    document.getElementById("history-container").appendChild(cityEl);
 }
 
 userInputForm.on("submit",formSubmitHandler);
