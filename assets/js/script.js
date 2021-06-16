@@ -69,6 +69,10 @@ var displayCurrentWeather = function (weather, searchTerm) {
 var displayForecastWeather = function(weather, searchTerm){
     console.log(weather);
 
+    //clear old cards
+    cards = $(".card");
+    cards.remove();
+
     for(var i = 4; i < 37; i += 8){
         var day = weather.list[i];
 
