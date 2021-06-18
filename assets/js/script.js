@@ -3,6 +3,28 @@ var searchTerm = $("#city-input")[0];
 var userInputForm = $("#user-input-container");
 var searchHistory = [];
 
+// var loadHistory = function () {
+//     searchHistory = JSON.parse(localStorage.getItem("searchHistory"));
+
+//     // if nothing in localStorage, create a new object to track all search history
+//     if (!searchHistory) {
+//         var searchHistory = [];
+//     }
+
+//     // loop over object properties
+//     $.each(searchHistory, function (list, arr) {
+//         console.log(list, arr);
+//         // then loop over sub-array
+//         arr.forEach(function (task) {
+//             createTask(task.text, task.date, list);
+//         });
+//     });
+// };
+
+var saveHistory = function () {
+    localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+};
+
 var formSubmitHandler = function (event) {
     event.preventDefault();
     console.log(event.target.id);
@@ -107,7 +129,7 @@ var displayForecastWeather = function(weather, searchTerm){
 
 var weatherHistory = function(city){
 
-    if(searchHistory.find(c => c.id == city.toUpperCase().trim())){
+    if(searchHistory.find(c => c == city.toUpperCase().trim())){
         return;
     }else{
 
@@ -116,7 +138,8 @@ var weatherHistory = function(city){
         cityEl.id = city.toUpperCase().trim();
         cityEl.textContent = city.toUpperCase().trim();
 
-        searchHistory.push(cityEl);
+        searchHistory.push(city.toUpperCase().trim());
+        saveHistory();
 
         document.getElementById("history-container").appendChild(cityEl);
 
