@@ -1,20 +1,22 @@
 var currentWeatherEl = $("#current-weather-container");
 var searchTerm = $("#city-input")[0];
 var userInputForm = $("#user-input-container");
+var searchHistory = [];
 
 var formSubmitHandler = function (event) {
     event.preventDefault();
+    console.log(event.target.id);
 
-    // get value from input el
-    var city = searchTerm.value.trim();
-    console.log(city);
+        // get value from input el
+        var city = searchTerm.value.trim();
+        console.log(city);
 
-    if (city) {
-        getWeather(city);
-        searchTerm.value = "";
-    } else {
-        alert("Please enter a city name.");
-    }
+        if (city) {
+            getWeather(city);
+            searchTerm.value = "";
+        } else {
+            alert("Please enter a city name.");
+        }
 };
 
 var getWeather = function (city) {
@@ -24,6 +26,7 @@ var getWeather = function (city) {
         if (response.ok) {
             response.json().then(function (data) {
                 displayForecastWeather(data, city);
+                weatherHistory(city);
             });
         } else {
             alert("Error: City not found.");
@@ -37,13 +40,8 @@ var getWeather = function (city) {
             response.json().then(function (data) {
                 displayCurrentWeather(data, city);
             });
-        } else {
-            alert("Error: City not found.");
-        }
+        } 
     })
-        .catch(function (error) {
-            alert("Unable to connect to weather service.");
-        })
 };
 
 var displayCurrentWeather = function (weather, searchTerm) {
@@ -77,7 +75,7 @@ var displayForecastWeather = function(weather, searchTerm){
         var day = weather.list[i];
 
         var cardEl = document.createElement("div");
-        cardEl.classList.add("col-2", "card", "text-white", "bg-dark", "mr-2", "cardEl");
+        cardEl.classList.add("col-2", "card", "text-white", "bg-dark", "mr-2", "mt-2", "cardEl");
 
         var cardHeaderEl = document.createElement("div");
         cardHeaderEl.classList.add("card-header");
@@ -104,44 +102,32 @@ var displayForecastWeather = function(weather, searchTerm){
 
 
     }
-    // // loop over days to create forecast cards
-    // for (var i = 0; i < weather.length; i++) {
-    //     // format city name
-    //     var cityName = weather[i].city.name;
 
-    //     // create container for each day
-    //     var forecastCardEl = document.createElement("div");
-    //     forecastCardEl.classList = "col-2 card text-white bg-dark";
-
-    //     // create span to hold repo name
-    //     var titleEl = document.createElement("span");
-    //     titleEl.textContent = cityName;
-
-    //     // append to container
-    //     forecastCardEl.appendChild(titleEl);
-
-    //     // create status element
-    //     var statusEl = document.createElement("span");
-    //     statusEl.classList = "flex-row align-center";
-
-    //     // check if repo has issues
-    //     if (repos[i].open_issues_count > 0) {
-    //         statusEl.innerHTML =
-    //             "<i class='fas fa-times status-icon icon-danger'></i>" + repos[i].open_issues_count + " issue(s)";
-    //     } else {
-    //         statusEl.innerHTML = "<i class='fas fa-check-square status-icon icon-success'></i>";
-    //     }
-
-    //     // append to container
-    //     forecastCardEl.appendChild(statusEl);
-
-    //     // append container to DOM
-    //     repoContainerEl.appendChild(forecastCardEl);
-    // }
 }
 
-var weatherHistory = function(){
+var weatherHistory = function(city){
 
+    if(searchHistory.find(c => c.id == city.toUpperCase().trim())){
+        return;
+    }else{
+
+        var cityEl = document.createElement("btn");
+        cityEl.classList.add("btn", "btn-secondary", "btn-block", "mt-2", "mb-2", "history-button");
+        cityEl.id = city.toUpperCase().trim();
+        cityEl.textContent = city.toUpperCase().trim();
+
+        searchHistory.push(cityEl);
+
+        document.getElementById("history-container").appendChild(cityEl);
+
+        cityEl.addEventListener("click", function(event){
+            console.log(event);
+            event.preventDefault();
+            searchTerm.value = city.toUpperCase().trim();
+            formSubmitHandler(event);
+        });
+    }
 }
 
 userInputForm.on("submit",formSubmitHandler);
+
