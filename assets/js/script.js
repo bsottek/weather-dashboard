@@ -1,6 +1,7 @@
 var currentWeatherEl = $("#current-weather-container");
 var searchTerm = $("#city-input")[0];
 var userInputForm = $("#user-input-container");
+var searchHistory = [];
 
 var formSubmitHandler = function (event) {
     event.preventDefault();
@@ -101,29 +102,28 @@ var displayForecastWeather = function(weather, searchTerm){
 }
 
 var weatherHistory = function(city){
-    var cityEl = document.createElement("btn");
-    cityEl.classList.add("btn", "btn-secondary", "btn-block", "mt-2", "mb-2", "history-button");
-    cityEl.id = city.toUpperCase().trim();
-    cityEl.textContent = city.toUpperCase().trim();
-    document.getElementById("history-container").appendChild(cityEl);
-    cityEl.addEventListener("click", function(event){
-        console.log(event);
-        event.preventDefault();
-        searchTerm.value = city.toUpperCase().trim();
-        formSubmitHandler(event);
-    });
+
+    if(searchHistory.find(c => c.id == city.toUpperCase().trim())){
+        return;
+    }else{
+
+        var cityEl = document.createElement("btn");
+        cityEl.classList.add("btn", "btn-secondary", "btn-block", "mt-2", "mb-2", "history-button");
+        cityEl.id = city.toUpperCase().trim();
+        cityEl.textContent = city.toUpperCase().trim();
+
+        searchHistory.push(cityEl);
+
+        document.getElementById("history-container").appendChild(cityEl);
+
+        cityEl.addEventListener("click", function(event){
+            console.log(event);
+            event.preventDefault();
+            searchTerm.value = city.toUpperCase().trim();
+            formSubmitHandler(event);
+        });
+    }
 }
 
 userInputForm.on("submit",formSubmitHandler);
 
-// userInputForm.on("submit","#search", function(event){
-//     event.preventDefault();
-//     console.log(this);
-//     console.log(event);
-//     if(this.id== "search"){
-//         formSubmitHandler(event);
-//     }else if (this.id==this.textContent){
-//         searchTerm.val(this.textContent);
-//         formSubmitHandler(event);
-//     }
-// });
