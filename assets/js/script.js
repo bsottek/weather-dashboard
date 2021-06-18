@@ -3,23 +3,16 @@ var searchTerm = $("#city-input")[0];
 var userInputForm = $("#user-input-container");
 var searchHistory = [];
 
-// var loadHistory = function () {
-//     searchHistory = JSON.parse(localStorage.getItem("searchHistory"));
+var loadHistory = function () {
+    if (JSON.parse(localStorage.getItem("searchHistory"))){
+        searchHistory = JSON.parse(localStorage.getItem("searchHistory"));
 
-//     // if nothing in localStorage, create a new object to track all search history
-//     if (!searchHistory) {
-//         var searchHistory = [];
-//     }
-
-//     // loop over object properties
-//     $.each(searchHistory, function (list, arr) {
-//         console.log(list, arr);
-//         // then loop over sub-array
-//         arr.forEach(function (task) {
-//             createTask(task.text, task.date, list);
-//         });
-//     });
-// };
+     // loop over object properties
+        $.each(searchHistory, function (list, arr) {
+            createButton(arr);
+        });
+    }
+}
 
 var saveHistory = function () {
     localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
@@ -129,28 +122,31 @@ var displayForecastWeather = function(weather, searchTerm){
 
 var weatherHistory = function(city){
 
-    if(searchHistory.find(c => c == city.toUpperCase().trim())){
+    if(searchHistory && searchHistory.find(c => c == city.toUpperCase().trim())){
         return;
     }else{
-
-        var cityEl = document.createElement("btn");
-        cityEl.classList.add("btn", "btn-secondary", "btn-block", "mt-2", "mb-2", "history-button");
-        cityEl.id = city.toUpperCase().trim();
-        cityEl.textContent = city.toUpperCase().trim();
-
+        createButton(city);
         searchHistory.push(city.toUpperCase().trim());
         saveHistory();
+    };
+}
 
-        document.getElementById("history-container").appendChild(cityEl);
+var createButton = function(city){
+    var cityEl = document.createElement("btn");
+    cityEl.classList.add("btn", "btn-secondary", "btn-block", "mt-2", "mb-2", "history-button");
+    cityEl.id = city.toUpperCase().trim();
+    cityEl.textContent = city.toUpperCase().trim();
 
-        cityEl.addEventListener("click", function(event){
-            console.log(event);
-            event.preventDefault();
-            searchTerm.value = city.toUpperCase().trim();
-            formSubmitHandler(event);
-        });
-    }
+    document.getElementById("history-container").appendChild(cityEl);
+
+    cityEl.addEventListener("click", function (event) {
+        console.log(event);
+        event.preventDefault();
+        searchTerm.value = city.toUpperCase().trim();
+        formSubmitHandler(event);
+    });
 }
 
 userInputForm.on("submit",formSubmitHandler);
+loadHistory();
 
