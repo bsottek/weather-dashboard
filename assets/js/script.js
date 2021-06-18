@@ -1,6 +1,8 @@
 var currentWeatherEl = $("#current-weather-container");
 var searchTerm = $("#city-input")[0];
 var userInputForm = $("#user-input-container");
+var searchButton = $("#search");
+var deleteButton = $("#delete");
 var searchHistory = [];
 
 var loadHistory = function () {
@@ -147,6 +149,14 @@ var createButton = function(city){
     });
 }
 
-userInputForm.on("submit",formSubmitHandler);
+var clearHistory = function(event){
+    event.preventDefault();
+    localStorage.setItem("searchHistory", null);
+    searchHistory = [];
+    $(".btn-secondary").remove();
+}
+
+searchButton.on("click",formSubmitHandler);
+deleteButton.on("click", clearHistory);
 loadHistory();
 
